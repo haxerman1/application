@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Application</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            user-select: none;
+            z-index: 9999;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>minecraft pxw15 staff team application</h2>
+        <form id="applicationForm">
+            <input type="text" name="discord" placeholder="Discord Username" required>
+            <input type="text" name="minecraft" placeholder="Minecraft Username" required>
+            <textarea name="reason" placeholder="Why do you want to join?" required></textarea>
+            <textarea name="experience" placeholder="Previous Experience" required></textarea>
+            <textarea name="availability" placeholder="Availability (hours per week)" required></textarea>
+            <textarea name="skills" placeholder="Relevant Skills" required></textarea>
+            <textarea name="age" placeholder="Your Age" required></textarea>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('applicationForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const data = {
+                discord: formData.get('discord'),
+                minecraft: formData.get('minecraft'),
+                reason: formData.get('reason'),
+                experience: formData.get('experience'),
+                availability: formData.get('availability'),
+                skills: formData.get('skills'),
+                age: formData.get('age'),
+            };
+
+            const message = `
+                **new application**\n
+                **discord username:** ${data.discord}\n
+                **mc username:** ${data.minecraft}\n
+                **why does he want to join:** ${data.reason}\n
+                **previous experiences:** ${data.experience}\n
+                **how long he can stay up:** ${data.availability}\n
+                **relevant skills:** ${data.skills}\n
+                **theyr age:** ${data.age}
+            `;
+
+            await fetch('https://discord.com/api/webhooks/1248980059826425948/LeycLVMDJ-nNVAmbCT1m-12X0Wc1JhRqC4GwzwnU9xR6JcI6QnvKkCLXk2XsNl-tiSoc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ content: message }),
+            });
+
+            alert('Application submitted!');
+            form.reset();
+        });
+
+        const createSnowflake = () => {
+            const snowflake = document.createElement('div');
+            snowflake.className = 'snowflake';
+            snowflake.innerHTML = '❄️';
+            snowflake.style.left = `${Math.random() * window.innerWidth}px`;
+            snowflake.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            snowflake.style.fontSize = `${Math.random() * 10 + 10}px`;
+            document.body.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        };
+
+        setInterval(createSnowflake, 100);
+    </script>
+</body>
+</html>
